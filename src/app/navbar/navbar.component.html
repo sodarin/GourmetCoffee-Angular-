@@ -1,0 +1,92 @@
+<nav>
+  <div class="nav-wrapper orange accent-2">
+    <a [routerLink]="['/home']" class="brand-logo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Welcome to Gourmet Coffee</a>
+    <ul class="right hide-on-med-and-down">
+      <li [class.hidden]="isLogin"><a (click)="signInOpen()" class="waves-effect waves-light"><i class="material-icons left">person</i>Sign In</a></li>
+      <li [class.hidden]="isLogin"><a (click)="loginOpen()" class="waves-effect waves-light"><i class="material-icons left">input</i>Login</a></li>
+      <li [class.hidden]="!isLogin"><a [routerLink]="['/ShoppingCart']" class="waves-effect waves-light"><i class="material-icons left">shopping_cart</i>Shopping Cart</a></li>
+      <li [class.hidden]="!isLogin"><a [routerLink]="['/history']" class="waves-effect waves-light"><i class="material-icons left">library_books</i>History Order</a></li>
+      <li [class.hidden]="!isLogin"><a [routerLink]="['']" class="waves-effect waves-light"><i class="material-icons left">exit_to_app</i>Exit</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+<div id="signInModal" class="modal">
+  <div class="modal-content">
+    <h4 class="text-center">Sign In</h4>
+    <form class="col s12" [formGroup]="formModel" (submit)="signInSubmit()">
+      <div class="row">
+        <div class="input-field col s12" [class.has-error]="formModel.get('name').touched && (formModel.hasError('minlength', 'name') || formModel.hasError('required', 'name'))" [class.has-success]="formModel.get('name').touched && formModel.get('name').valid">
+          <input id="username" type="text" formControlName="name">
+          <label for="username">Username</label>
+          <span [class.hidden]="formModel.get('name').untouched || !formModel.hasError('required', 'name')">Username is required.</span>
+          <span [class.hidden]="formModel.get('name').untouched || !formModel.hasError('minlength', 'name')">Username should be more than 4 words.</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12" [class.has-error]="formModel.get('emailID').touched && (formModel.hasError('required', 'emailID') || formModel.hasError('email', 'emailID'))" [class.has-success]="formModel.get('emailID').touched && formModel.get('emailID').valid">
+          <input id="email" type="text" formControlName="emailID">
+          <label for="email">Email</label>
+          <span [class.hidden]="formModel.get('emailID').untouched || !formModel.hasError('required', 'emailID')">Email is required.</span>
+          <span [class.hidden]="formModel.get('emailID').untouched || (!formModel.hasError('email', 'emailID') || formModel.hasError('required', 'emailID'))">Wrong Email format.</span>
+        </div>
+      </div>
+      <div formGroupName="pwd">
+        <div class="row">
+          <div class="input-field col s12" [class.has-error]="formModel.get('pwd').get('password').touched && (formModel.get('pwd').hasError('required', 'password') || formModel.get('pwd').hasError('minlength', 'password') || formModel.get('pwd').hasError('maxlength', 'password'))" [class.has-success]="formModel.get('pwd').get('password').touched && formModel.get('pwd').get('password').valid">
+            <input id="password" type="password" formControlName="password">
+            <label for="password">PassWord</label>
+            <span [class.hidden]="!formModel.get('pwd').hasError('required', 'password') || formModel.get('pwd').get('password').untouched">Password is required.</span>
+            <span [class.hidden]="(!formModel.get('pwd').hasError('minlength', 'password') && !formModel.get('pwd').hasError('maxlength', 'password')) || formModel.get('pwd').get('password').untouched">Password is from 6 to 16.</span>
+          </div>
+        </div>
+      </div>
+      <div formGroupName="pwd">
+        <div class="row">
+          <div class="input-field col s12" [class.has-error]="(formModel.get('pwd').get('cpassword').dirty || formModel.get('pwd').get('cpassword').touched) && (formModel.get('pwd').hasError('required', 'cpassword') || formModel.hasError('match', 'pwd'))" [class.has-success]="formModel.get('pwd').get('cpassword').touched && formModel.get('pwd').get('cpassword').valid">
+            <input id="cpassword" type="password" formControlName="cpassword">
+            <label for="cpassword">Password Confirm</label>
+            <span [class.hidden]="formModel.get('pwd').get('cpassword').untouched || !formModel.get('pwd').hasError('required', 'cpassword')">Confirm password is required.</span>
+            <span [class.hidden]="formModel.get('pwd').get('cpassword').pristine || (!formModel.hasError('match', 'pwd') || formModel.get('pwd').hasError('required', 'cpassword'))">Not match.</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="btn-group">
+          <button type="submit" class="waves-effect waves-orange btn-flat">OK</button>
+          <button type="button" class="modal-action modal-close waves-effect waves-orange btn-flat">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="loginModal" class="modal modal-fixed-footer">
+  <div class="modal-content">
+    <h4 class="text-center">Login</h4>
+    <form class="col s12" [formGroup]="loginModel" (submit)="loginSubmit()">
+      <div class="row">
+        <div class="input-field col s12" [class.has-error]="loginModel.get('loginID').touched && (loginModel.hasError('required', 'loginID') || loginModel.hasError('email', 'loginID'))" [class.has-success]="loginModel.get('loginID').valid && loginModel.get('loginID').touched">
+          <input id="loginName" type="text" formControlName="loginID">
+          <label for="loginName">Username</label>
+          <span [class.hidden]="loginModel.get('loginID').untouched || !loginModel.hasError('required', 'loginID')">Email is required.</span>
+          <span [class.hidden]="loginModel.get('loginID').untouched || (loginModel.hasError('required', 'loginID') || !loginModel.hasError('email', 'loginID'))">Wrong Email format.</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12" [class.has-error]="loginModel.get('loginPassword').touched && loginModel.hasError('required', 'loginPassword')" [class.has-success]="loginModel.get('loginPassword').valid && loginModel.get('loginPassword').touched">
+          <input id="loginPassword" type="password" formControlName="loginPassword">
+          <label for="loginPassword">Password</label>
+          <span [class.hidden]="loginModel.get('loginPassword').untouched || !loginModel.hasError('required', 'loginPassword')">Password is required.</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="btn-group">
+          <button type="submit" class="waves-effect waves-orange btn-flat">GO</button>
+          <button type="button" class="modal-action modal-close waves-effect waves-orange btn-flat">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

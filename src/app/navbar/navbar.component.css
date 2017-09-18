@@ -1,0 +1,18 @@
+.hidden{
+  display: none;
+}
+.input-field label {
+  font-size: 18px;
+}
+.input-field input {
+  font-size: 16px;
+}
+.has-error span{
+  color: #e53935;
+}
+.has-error input{
+  border-bottom: 2px #e53935 solid;
+}
+.has-success input{
+  border-bottom: 2px #2962ff solid;
+}
